@@ -44,9 +44,11 @@ internal class PortfolioRepository @Inject constructor(
                 }
             }
             //optimize: check diff with local data and then emit
-//            if (localData.isEmpty()) {
+            if (networkData is NetworkResult.Success) {
                 emit(networkData)
-//            }
+            } else if(localData.isEmpty()){
+                emit(networkData)
+            }
         }
     }
 }

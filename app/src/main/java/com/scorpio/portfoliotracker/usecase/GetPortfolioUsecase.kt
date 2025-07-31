@@ -12,7 +12,7 @@ import javax.inject.Inject
 internal class GetPortfolioUsecase @Inject constructor(
     private val portfolioRepository: IPortfolioRepository,
 ) : IPortfolioUsecase {
-    private val _portfolioResultFlow: MutableSharedFlow<PortfolioResult> = MutableSharedFlow(replay = 1)
+    private val _portfolioResultFlow: MutableSharedFlow<PortfolioResult> = MutableSharedFlow()
     override val portfolioResultFlow: SharedFlow<PortfolioResult>
         get() = _portfolioResultFlow
 
