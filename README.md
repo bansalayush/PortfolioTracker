@@ -1,0 +1,2 @@
+[![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/bansalayush/PortfolioTracker/build.yml)](https://github.com/bansalayush/PortfolioTracker/actions/runs/16643276450)
+![hld.png](HLD.png)
