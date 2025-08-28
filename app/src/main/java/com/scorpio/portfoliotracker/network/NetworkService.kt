@@ -36,3 +36,4 @@ object NetworkService {
         return retrofit.create(serviceClass)
     }
 }
+

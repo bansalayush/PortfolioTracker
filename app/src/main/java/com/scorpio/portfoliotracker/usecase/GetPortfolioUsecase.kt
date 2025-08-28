@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
 
-internal class GetPortfolioUsecase @Inject constructor(
+ class GetPortfolioUsecase @Inject constructor(
     private val portfolioRepository: IPortfolioRepository,
 ) : IPortfolioUsecase {
     private val _portfolioResultFlow: MutableSharedFlow<PortfolioResult> = MutableSharedFlow()
