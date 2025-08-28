@@ -1,12 +1,8 @@
 name: Android Build
 
 on:
-  workflow_dispatch: 
-    inputs: 
-      branch:
-        description: 'Branch to build'
-        required: true
-        default: 'main'
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
   build:
@@ -25,6 +21,9 @@ jobs:
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
+
+      - name: Lint Check
+        run: ./gradlew ktlintCheck
 
       - name: Build with Gradle
         run: ./gradlew clean build
