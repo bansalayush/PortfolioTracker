@@ -20,8 +20,8 @@ jobs:
           distribution: 'temurin'
           cache: gradle
 
-
-      - uses: tj-actions/changed-files@v4
+      - name: Setting up tjactions
+        uses: tj-actions/changed-files@v4
         id: changed-files
 
       - name: List all changed files
