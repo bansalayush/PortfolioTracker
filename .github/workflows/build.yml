@@ -83,6 +83,7 @@ jobs:
           if-no-files-found: ignore
 
       - name: Build with Gradle
+        working-directory: ./PortfolioTracker
         run: ./gradlew clean build
 
       - name: Upload APK
