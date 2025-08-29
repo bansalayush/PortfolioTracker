@@ -20,19 +20,46 @@ jobs:
           distribution: 'temurin'
           cache: gradle
 
-      - name: Setting up tjactions
+      - name: Get changed Kotlin files
         uses: tj-actions/changed-files@v4
         id: changed-files
+        with:
+          files: |
+            **/*.kt
 
-      - name: List all changed files
+      - name: List changed Kotlin files
+        if: steps.changed-files.outputs.any_changed == 'true'
         run: |
-          echo "All changed files: ${{ steps.changed-files.outputs.all_changed_files }}"
+          echo "Changed Kotlin files: ${{ steps.changed-files.outputs.all_changed_files }}"
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Lint Check
-        run: ./gradlew ktlintCheck
+      - name: Download ktlint CLI
+        if: steps.changed-files.outputs.any_changed == 'true'
+        run: |
+          curl -sSLo ktlint https://github.com/pinterest/ktlint/releases/download/1.1.1/ktlint
+          chmod +x ktlint
+
+      - name: Run ktlint on changed Kotlin files
+        if: steps.changed-files.outputs.any_changed == 'true'
+        run: |
+          echo "Running ktlint on changed files: ${{ steps.changed-files.outputs.all_changed_files }}"
+          ./ktlint --android --reporter=html,output=ktlint-report.html --reporter=checkstyle,output=ktlint-report.xml ${{ steps.changed-files.outputs.all_changed_files }}
+
+      - name: Skip ktlint (no Kotlin changes)
+        if: steps.changed-files.outputs.any_changed == 'false'
+        run: echo "No Kotlin files changed - skipping ktlint check."
+
+      - name: Upload ktlint reports
+        if: always() && steps.changed-files.outputs.any_changed == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ktlint-reports
+          path: |
+            ktlint-report.html
+            ktlint-report.xml
+          if-no-files-found: ignore
 
       - name: Build with Gradle
         run: ./gradlew clean build
