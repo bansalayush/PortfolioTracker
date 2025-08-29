@@ -67,8 +67,6 @@ class MainViewModel @Inject constructor(
         val toggledState = _holdingScreenDataFlow.value!!.bottomViewState.toggle()
 
         _holdingScreenDataFlow.value = _holdingScreenDataFlow.value?.copy(
-            bottomViewState = toggledState
-        )
-        println("toggled")
-    }
+            bottomViewState = toggledState)
+        println("toggled") }
 }
