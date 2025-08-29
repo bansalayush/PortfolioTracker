@@ -30,7 +30,7 @@ jobs:
           echo "${{ github.ref }}"
           echo "${{ github.event.pull_request.base.ref }}"
           echo "${{ github.base_ref }}"
-
+          git fetch origin "$BASE_BRANCH:$BASE_BRANCH"
           # Find changed (M), added (A), or renamed (R) .kt files in the PR
           changed_files=$(git diff --name-status origin/"$BASE_BRANCH"...HEAD | grep -E '^(M|A|R).*\.kt$' | awk '{print $NF}' | tr '\n' ' ')
 
