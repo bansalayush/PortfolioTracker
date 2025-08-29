@@ -13,6 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
+          path: ./PortfolioTracker
           fetch-depth: 0  # Fetch full history for git diff to work
 
       - name: Set up JDK 17
@@ -25,14 +26,13 @@ jobs:
       - name: Get changed, added, or renamed Kotlin files
         id: changed-files
         run: |
+          BASE_BRANCH="${{ github.event.pull_request.base.ref }}"
           echo "${{ github.ref }}"
           echo "${{ github.event.pull_request.base.ref }}"
           echo "${{ github.base_ref }}"
-          # Get the base branch (main) and current PR branch
-          git fetch origin main:main
 
           # Find changed (M), added (A), or renamed (R) .kt files in the PR
-          changed_files=$(git diff --name-status origin/main...HEAD | grep -E '^(M|A|R).*\.kt$' | awk '{print $NF}' | tr '\n' ' ')
+          changed_files=$(git diff --name-status origin/"$BASE_BRANCH"...HEAD | grep -E '^(M|A|R).*\.kt$' | awk '{print $NF}' | tr '\n' ' ')
 
           # Remove trailing whitespace
           changed_files=$(echo "$changed_files" | sed 's/[[:space:]]*$//')
