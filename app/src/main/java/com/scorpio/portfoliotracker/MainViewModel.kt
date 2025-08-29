@@ -23,7 +23,8 @@ class MainViewModel @Inject constructor(
 
     private val _screenStateFlow: MutableStateFlow<ScreenState> =
         MutableStateFlow(ScreenState.Loading)
-    val screenStateFlow: StateFlow<ScreenState> = _screenStateFlow
+    val screenStateFlow:
+        StateFlow<ScreenState> = _screenStateFlow
 
     private val _holdingScreenDataFlow: MutableStateFlow<UserHoldingScreenData?> =
         MutableStateFlow(null)
