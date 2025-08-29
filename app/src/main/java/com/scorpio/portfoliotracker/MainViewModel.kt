@@ -28,11 +28,17 @@ class MainViewModel @Inject constructor(
     private val _holdingScreenDataFlow: MutableStateFlow<UserHoldingScreenData?> =
         MutableStateFlow(null)
     val holdingScreenDataFlow
-    = _holdingScreenDataFlow.asStateFlow()
 
-    init {
-        viewModelScope.launch {
-            portfolioUsecase.portfolioResultFlow.collect { result ->
+    =
+        _holdingScreenDataFlow.asStateFlow()
+
+    init
+    {
+        viewModelScope
+            .launch{
+            portfolioUsecase
+                .portfolioResultFlow
+                .collect { result ->
                 when (result) {
                     is PortfolioResult.Failure -> {
                         _screenStateFlow.value = ScreenState.Error(result.error, throwable = null)
