@@ -7,6 +7,7 @@ plugins {
     id("com.google.devtools.ksp") version "2.0.21-1.0.27" apply false
     id("io.gitlab.arturbosch.detekt") version "1.23.5" apply false
     id("org.jlleitschuh.gradle.ktlint") version "12.1.0" apply false
+    id("com.diffplug.spotless") version "6.25.0" apply false
 
 
 }

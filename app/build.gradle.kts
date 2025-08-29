@@ -4,7 +4,7 @@ plugins {
     id("com.google.devtools.ksp")
     id("com.google.dagger.hilt.android")
     alias(libs.plugins.kotlin.compose)
-    id("org.jlleitschuh.gradle.ktlint")
+    id("com.diffplug.spotless")
 }
 
 android {
@@ -39,16 +39,21 @@ android {
     }
 }
 
-ktlint {
-    version.set("1.1.1")
-    android.set(true)
-    reporters {
-        reporter(org.jlleitschuh.gradle.ktlint.reporter.ReporterType.HTML)
-        reporter(org.jlleitschuh.gradle.ktlint.reporter.ReporterType.CHECKSTYLE)
+spotless {
+    kotlin {
+        target("**/*.kt")
+        targetExclude("**/build/**", "**/generated/**")
+        ktlint("1.1.1")
+            .setEditorConfigPath("$rootDir/.editorconfig")
+            .customRuleSets(
+                listOf(
+                    "io.nlopez.compose.rules:ktlint:0.4.15"
+                )
+            )
     }
-    filter {
-        exclude("**/generated/**")
-        exclude("**/build/**")
+    kotlinGradle {
+        target("*.gradle.kts")
+        ktlint("1.1.1")
     }
 }
 
