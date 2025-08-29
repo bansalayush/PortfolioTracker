@@ -5,5 +5,12 @@ import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
 
-class TrackerApplication: Application() {
+class
+TrackerApplication
+    :
+    Application()
+{
 }
+
+
+
