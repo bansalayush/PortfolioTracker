@@ -24,7 +24,7 @@ jobs:
           cache: gradle
 
       - name: Get changed, added, or renamed Kotlin files
-        id: changed-file
+        id: changed-files
         run: |
           cd PortfolioTracker
           BASE_BRANCH="${{ github.event.pull_request.base.ref }}"
