@@ -35,7 +35,11 @@ class MainViewModel @Inject constructor(
     = _holdingScreenDataFlow.asStateFlow()
 
     init {
+
+
         viewModelScope.launch {
+
+
             portfolioUsecase.portfolioResultFlow.collect { result ->
                 when (result) {
                     is PortfolioResult.Failure -> {

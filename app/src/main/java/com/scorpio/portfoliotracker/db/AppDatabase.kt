@@ -9,7 +9,11 @@ import com.scorpio.portfoliotracker.data.local.HoldingEntity
 
 @Database(entities = [HoldingEntity::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun holdingDao(): HoldingDao
+    abstract
+    fun
+        holdingDao()
+    :
+        HoldingDao
 
     companion object {
         @Volatile
