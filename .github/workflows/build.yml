@@ -27,13 +27,13 @@ jobs:
         run: |
           # Get the base branch (main) and current PR branch
           git fetch origin main:main
-          
+
           # Find changed (M), added (A), or renamed (R) .kt files in the PR
           changed_files=$(git diff --name-status origin/main...HEAD | grep -E '^(M|A|R).*\.kt$' | awk '{print $NF}' | tr '\n' ' ')
-          
+
           # Remove trailing whitespace
           changed_files=$(echo "$changed_files" | sed 's/[[:space:]]*$//')
-          
+
           if [ -n "$changed_files" ]; then
             echo "Found changed Kotlin files: $changed_files"
             echo "has_changes=true" >> $GITHUB_OUTPUT
@@ -52,15 +52,31 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Run Spotless check
+      - name: Download ktlint CLI
         if: steps.changed-files.outputs.has_changes == 'true'
         run: |
-          echo "Running Spotless check (triggered by changes in: ${{ steps.changed-files.outputs.files }})"
-          ./gradlew spotlessCheck
+          curl -sSLo ktlint https://github.com/pinterest/ktlint/releases/download/1.1.1/ktlint
+          chmod +x ktlint
 
-      - name: Skip Spotless (no Kotlin changes)
+      - name: Run ktlint on changed Kotlin files
+        if: steps.changed-files.outputs.has_changes == 'true'
+        run: |
+          echo "Running ktlint on changed files: ${{ steps.changed-files.outputs.files }}"
+          ./ktlint --reporter=html,output=ktlint-report.html --reporter=checkstyle,output=ktlint-report.xml ${{ steps.changed-files.outputs.files }}
+
+      - name: Skip ktlint (no Kotlin changes)
         if: steps.changed-files.outputs.has_changes == 'false'
-        run: echo "No Kotlin files changed - skipping Spotless check."
+        run: echo "No Kotlin files changed - skipping ktlint check."
+
+      - name: Upload ktlint reports
+        if: always() && steps.changed-files.outputs.has_changes == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ktlint-reports
+          path: |
+            ktlint-report.html
+            ktlint-report.xml
+          if-no-files-found: ignore
 
       - name: Build with Gradle
         run: ./gradlew clean build
