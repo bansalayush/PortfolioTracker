@@ -6,8 +6,7 @@ import dagger.hilt.android.HiltAndroidApp
 @HiltAndroidApp
 
 class
-TrackerApplication
-    :
+TrackerApplication :
     Application()
 {
 }
