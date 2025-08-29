@@ -30,7 +30,6 @@ class MainViewModel @Inject constructor(
     private val _holdingScreenDataFlow: MutableStateFlow<UserHoldingScreenData?> =
         MutableStateFlow(null)
     val holdingScreenDataFlow
-
     =
         _holdingScreenDataFlow.asStateFlow()
 
