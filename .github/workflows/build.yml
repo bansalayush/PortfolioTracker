@@ -25,6 +25,9 @@ jobs:
       - name: Get changed, added, or renamed Kotlin files
         id: changed-files
         run: |
+          echo "${{ github.ref }}"
+          echo "${{ github.event.pull_request.base.ref }}"
+          echo "${{ github.base_ref }}"
           # Get the base branch (main) and current PR branch
           git fetch origin main:main
 
