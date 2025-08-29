@@ -22,6 +22,9 @@ jobs:
           distribution: 'temurin'
           cache: gradle
 
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
       - name: Get changed, added, or renamed Kotlin files
         id: changed-files
         run: |
@@ -48,9 +51,6 @@ jobs:
         if: steps.changed-files.outputs.has_changes == 'true'
         run: |
           echo "Changed Kotlin files: ${{ steps.changed-files.outputs.files }}"
-
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
 
       - name: Download ktlint CLI
         if: steps.changed-files.outputs.has_changes == 'true'
