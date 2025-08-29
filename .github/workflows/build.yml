@@ -62,7 +62,7 @@ jobs:
         if: steps.changed-files.outputs.has_changes == 'true'
         run: |
           echo "Running ktlint on changed files: ${{ steps.changed-files.outputs.files }}"
-          ./ktlint --android --reporter=html,output=ktlint-report.html --reporter=checkstyle,output=ktlint-report.xml ${{ steps.changed-files.outputs.files }}
+          ./ktlint --reporter=html,output=ktlint-report.html --reporter=checkstyle,output=ktlint-report.xml ${{ steps.changed-files.outputs.files }}
 
       - name: Skip ktlint (no Kotlin changes)
         if: steps.changed-files.outputs.has_changes == 'false'
