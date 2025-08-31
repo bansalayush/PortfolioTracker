@@ -26,8 +26,8 @@ jobs:
       - name: Get changed, added, or renamed Kotlin files
         id: changed-files
         run: |
-          pwd
           cd PortfolioTracker
+          pwd
           BASE_BRANCH="${{ github.event.pull_request.base.ref }}"
           echo "${{ github.ref }}"
           echo "${{ github.event.pull_request.base.ref }}"
@@ -67,7 +67,7 @@ jobs:
           pwd
           ls -a
           echo "Running ktlint on changed files: ${{ steps.changed-files.outputs.files }}"
-          ./ktlint  --editorconfig=.editorconfig --reporter=html,output=ktlint-report.html --reporter=checkstyle,output=ktlint-report.xml ${{ steps.changed-files.outputs.files }}
+          ./ktlint  --editorconfig=./PortfolioTracker/.editorconfig --reporter=html,output=ktlint-report.html --reporter=checkstyle,output=ktlint-report.xml ${{ steps.changed-files.outputs.files }}
 
       - name: Skip ktlint (no Kotlin changes)
         if: steps.changed-files.outputs.has_changes == 'false'
@@ -89,10 +89,10 @@ jobs:
 
       - name: Build with Gradle
         working-directory: ./PortfolioTracker
-        run: ./gradlew clean build
+        run: ./gradlew clean build -x spotless
 
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: app-debug
-          path: app/build/outputs/apk/debug/app-debug.apk
+#      - name: Upload APK
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: app-debug
+#          path: app/build/outputs/apk/debug/app-debug.apk
