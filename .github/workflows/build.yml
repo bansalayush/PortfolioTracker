@@ -63,11 +63,12 @@ jobs:
 
       - name: Run ktlint on changed Kotlin files
         if: steps.changed-files.outputs.has_changes == 'true'
+        working-directory: ./PortfolioTracker
         run: |
           pwd
           ls -a
           echo "Running ktlint on changed files: ${{ steps.changed-files.outputs.files }}"
-          ./ktlint  --editorconfig=./PortfolioTracker/.editorconfig --reporter=html,output=ktlint-report.html --reporter=checkstyle,output=ktlint-report.xml ${{ steps.changed-files.outputs.files }}
+          ./ktlint  --editorconfig=./.editorconfig --reporter=html,output=ktlint-report.html --reporter=checkstyle,output=ktlint-report.xml ${{ steps.changed-files.outputs.files }}
 
       - name: Skip ktlint (no Kotlin changes)
         if: steps.changed-files.outputs.has_changes == 'false'
