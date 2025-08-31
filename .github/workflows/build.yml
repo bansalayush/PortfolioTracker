@@ -4,6 +4,9 @@ on:
   pull_request:
     branches:
       - main
+  push:
+    branches:
+      - main
 
 jobs:
   build:
@@ -26,6 +29,7 @@ jobs:
       - name: Get changed, added, or renamed Kotlin files
         id: changed-files
         run: |
+          pwd
           cd PortfolioTracker
           BASE_BRANCH="${{ github.event.pull_request.base.ref }}"
           echo "${{ github.ref }}"
@@ -51,6 +55,7 @@ jobs:
       - name: List changed Kotlin files
         if: steps.changed-files.outputs.has_changes == 'true'
         run: |
+          pwd
           echo "Changed Kotlin files: ${{ steps.changed-files.outputs.files }}"
 
       - name: Download ktlint CLI
@@ -62,6 +67,7 @@ jobs:
       - name: Run ktlint on changed Kotlin files
         if: steps.changed-files.outputs.has_changes == 'true'
         run: |
+          pwd
           echo "Running ktlint on changed files: ${{ steps.changed-files.outputs.files }}"
           ./ktlint  --editorconfig=.editorconfig --reporter=html,output=ktlint-report.html --reporter=checkstyle,output=ktlint-report.xml ${{ steps.changed-files.outputs.files }}
 
